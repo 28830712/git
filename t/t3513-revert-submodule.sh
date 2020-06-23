@@ -15,7 +15,11 @@ git_revert () {
 	git status -su >expect &&
 	ls -1pR * >>expect &&
 	tar cf "$TRASH_DIRECTORY/tmp.tar" * &&
-	git checkout "$1" &&
+	$2 git checkout "$1" &&
+	if test -n "$2"
+	then
+		return
+	fi &&
 	git revert HEAD &&
 	rm -rf * &&
 	tar xf "$TRASH_DIRECTORY/tmp.tar" &&
